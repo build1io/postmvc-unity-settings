@@ -7,6 +7,7 @@ namespace Build1.PostMVC.Unity.Settings
         public readonly SettingType       settingsType;
         public readonly SettingsErrorCode errorCode;
         public readonly Exception         exception;
+        public readonly bool              isSuccess;
         public readonly bool              isError;
 
         internal SettingsResult(SettingType settingsType) : this(SettingsErrorCode.None)
@@ -28,6 +29,7 @@ namespace Build1.PostMVC.Unity.Settings
         private SettingsResult(SettingsErrorCode errorCode)
         {
             this.errorCode = errorCode;
+            this.isSuccess = errorCode == SettingsErrorCode.None; 
             this.isError = errorCode != SettingsErrorCode.None;
         }
 
