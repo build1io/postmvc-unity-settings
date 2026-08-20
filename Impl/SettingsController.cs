@@ -331,13 +331,13 @@ namespace Build1.PostMVC.Unity.Settings.Impl
                         Log.Debug("Saving device settings...");
 
                         // We put in try/catch as this operation is performed when app is shutting down or put on pause.
-                        // If it'll fail with an exception, other operations must not be interrupted.   
+                        // If it fails with an exception, other operations must not be interrupted.   
                         try
                         {
                             var path = Path.Combine(AppController.PersistentDataPath, SettingsFileName);
                             var json = JsonConvert.SerializeObject(_deviceSettingsValues);
 
-                            Log.Debug(() => "Json: " + json);
+                            Log.Debug(j => $"Json: {j}", json);
 
                             File.WriteAllText(path, json);
 
@@ -370,14 +370,18 @@ namespace Build1.PostMVC.Unity.Settings.Impl
                         Log.Debug("Saving user settings...");
 
                         // We put in try/catch as this operation is performed when app is shutting down or put on pause.
-                        // If it'll fail with an exception, other operations must not be interrupted.   
+                        // If it fails with an exception, other operations must not be interrupted.   
                         try
                         {
-                            var path = Path.Combine(AppController.PersistentDataPath, UserId, SettingsFileName);
+                            var pathDir = Path.Combine(AppController.PersistentDataPath, UserId);
+                            var path = Path.Combine(pathDir, SettingsFileName);
                             var json = JsonConvert.SerializeObject(_userSettingsValues);
 
-                            Log.Debug(() => "Json: " + json);
+                            Log.Debug(j => $"Json: {j}", json);
 
+                            if (!Directory.Exists(pathDir))
+                                Directory.CreateDirectory(pathDir);
+                            
                             File.WriteAllText(path, json);
 
                             _userSettingsDirty = false;
